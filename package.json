@@ -1,0 +1,22 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "youtube clone coding project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daaeaad/wetube.git"
+  },
+  "author": "daae",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daaeaad/wetube/issues"
+  },
+  "homepage": "https://github.com/daaeaad/wetube#readme",
+  "scripts": {
+    "win": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
