@@ -14,9 +14,16 @@
   },
   "homepage": "https://github.com/daaeaad/wetube#readme",
   "scripts": {
-    "win": "node index.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "nodemon": "^2.0.7"
+  },
+  "type": "module"
 }
