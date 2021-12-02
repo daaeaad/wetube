@@ -1,0 +1,13 @@
+extends base.pug
+include mixins/video.pug
+
+block contents
+    h2 Welcome to Wetube 
+
+    br
+
+    each item in videos
+        +video(item)
+        hr
+    else
+        h4 Nothing

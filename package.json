@@ -14,15 +14,18 @@
   },
   "homepage": "https://github.com/daaeaad/wetube#readme",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
+    "mongoose": "^6.0.13",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   },
   "type": "module"
