@@ -14,6 +14,23 @@ const schema = new Schema({
     }
 });
 
+/*
+schema.pre('save', async function(){
+    this.hashtags = this.hashtags[0]
+                    .split(',')
+                    .map((item) => (item.startsWith('#') ? `${item}` : `#${item}`));
+    console.log(this);
+});
+*/
+
+schema.static('hashtagsFormat', function(hashtags) {
+    const result = hashtags
+                    .split(',')
+                    .map((item) => (item.startsWith('#') ? `${item}` : `#${item}`));
+
+    return result;
+});
+
 const Video = mongoose.model('Video', schema);
 
 export default Video;

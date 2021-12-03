@@ -1,7 +1,13 @@
+
 mixin video(data)
     div
         h4 
             div 
                 a(href=`/video/${data.id}`) #{data.title}
             p #{data.description}
+            p
+                each hashtag in data.hashtags 
+                    span=hashtag 
+                    span=' '
             small #{data.createdAt}
+    hr

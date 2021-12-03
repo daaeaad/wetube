@@ -12,8 +12,7 @@ export const home = async (req, res) => {
    
     // 방법 2: Promise 방식   
     try {
-        const videos = await Video.find({});
-        console.log(videos);
+        const videos = await Video.find({}).sort({createdAt: 'desc'});
         return res.render('home', {title: 'Home', videos});
     } catch {  // try 의 await(const Video)가 실패할 경우 catch문 실행
         return res.render('Server Error');
@@ -50,7 +49,7 @@ export const postEdit = async (req, res) => {
     await Video.findByIdAndUpdate(id, {
         title,
         description,
-        hashtags: hashtags.split(',').map((item)=>(item.startsWith('#') ? `${item}` : `#${item}`))
+        hashtags: Video.hashtagsFormat(hashtags)
     });
 
     return res.redirect(`/video/${id}`);
@@ -67,7 +66,7 @@ export const postUpload = async (req, res) => {
         await Video.create({
             title,
             description,
-            hashtags: hashtags.split(',').map((item) => (item.startsWith('#') ? `${item}` : `#${item}`))
+            hashtags: Video.hashtagsFormat(hashtags)
         });
         return res.redirect(`/`);
     } catch(error) {
@@ -75,3 +74,27 @@ export const postUpload = async (req, res) => {
         return res.render('uploadVideo', {title: 'Upload Video', errMessage: error._message});
     }
 };
+
+export const deleteVideo = async (req, res) => {
+    const { id } = req.params;
+    await Video.findByIdAndDelete(id);
+    return res.redirect('/');
+};
+
+export const search = async (req, res) => {
+    let videos = [];
+    const { keyword } = req.query;
+
+    if(keyword) {
+        const result = await Video.find({
+            title: { 
+                $regex: `${keyword}`,
+                $options: 'i'
+            }
+        });
+        videos = result;
+    }
+
+    return res.render('search', { title: 'Search Video', videos, keyword });
+};
+

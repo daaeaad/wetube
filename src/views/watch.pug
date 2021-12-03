@@ -6,6 +6,16 @@ block contents
     div 
         p=video.description
         small=video.createdAt 
+        
+        div 
+            each hashtag in video.hashtags
+                span=hashtag
+                span=' '
+    
+    br
+    br
     
     a(href=`${video.id}/edit`) Edit &rarr;
+    br
+    a(href=`${video.id}/delete`) Delete &rarr; 
 

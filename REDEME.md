@@ -4,7 +4,7 @@
 
 ## URL 구조
 
-#### 글로벌: globalRouter
+#### 루트: rootRouter
 / -> 홈
 /join -> 회원가입
 /login -> 로그인
