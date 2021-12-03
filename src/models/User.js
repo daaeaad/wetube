@@ -14,10 +14,10 @@ const schema = new Schema({
 });
 
 schema.pre('save', async function() {
-    console.log('plain string : ', this.password);
+    console.log('plain string : ', this.password); // test2222
     const hashedStr = await bcrypt.hash(this.password, 5);
     this.password = hashedStr;
-    console.log('hashed string : ', this.password);
+    console.log('hashed string : ', this.password); // $2b$05$IfPSXHNjRZ51.oYnU8/cRO/Z5TwvSExmKpgS4QauRKbhB2f3mw9kW
 });
 
 
