@@ -1,3 +1,4 @@
+
 # wetube
 유튜브클론코딩 / nodejs, mongodb, es6
 
@@ -12,3 +13,10 @@
 - 회원 등록 기능 추가
 - DB: users 테이블 추가
 - bcrypt 설치
+
+### 211206
+- 설치: express-sessions, connect-mongo, dotenv
+- DB: sessions 테이블 추가
+- 회원 로그인 기능 추가
+- 세션 설정
+- 환경변수 파일 생성, db url과 session secret 변수로 만들어서 사용
