@@ -1,0 +1,16 @@
+extends base.pug
+
+block contents 
+    if(errorMessage)
+        span=errorMessage
+
+    form(method="post")
+        input(type="text" name="userName" placeholder="유저명" value="" required)
+        input(type="password" name="password" placeholder="비밀번호(8~24글자)" value="" required)
+
+        input(type="submit" value="Join")
+
+    hr
+
+    span="계정이 없으신가요?"
+    a(href="/join") 가입하기 &rarr;

@@ -1,11 +1,20 @@
 extends base.pug
 
 block contents 
+    if(errorMessage)
+        span=errorMessage
+
     form(method="post")
         input(type="text" name="name" placeholder="이름" value="" required)
         input(type="email" name="email" placeholder="이메일" value="" required)
         input(type="password" name="password" placeholder="비밀번호(8~24글자)" value="" required)
+        input(type="password" name="password_confirm" placeholder="비밀번호 확인" value="" required)
         input(type="text" name="userName" placeholder="유저명" value="" required)
         input(type="text" name="location" placeholder="위치" value="" required)
 
         input(type="submit" value="Join")
+
+    hr
+
+    span="계정이 있으신가요?"
+    a(href="/login") 로그인 &rarr; 

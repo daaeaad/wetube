@@ -2,7 +2,7 @@
 doctype html 
 html(lang='ko')
     head 
-        title #{title} | Wetube
+        title #{title} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
         header 
@@ -15,8 +15,17 @@ html(lang='ko')
                         a(href="/") Home
                     li 
                         a(href="/search") Search
-                    li 
-                        a(href="/join") Join
+                    
+                    if(!loggedIn) 
+                        li 
+                            a(href="/Login") Login
+                        li 
+                            a(href="/join") Join
+                    else
+                        li 
+                            a(href="/logout") Logout
+                        li 
+                            a(href="/my-profile") #{loggedUser.userName}의 프로필
         main 
             block contents
             include includes/footer.pug
