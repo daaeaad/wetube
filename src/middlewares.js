@@ -9,6 +9,7 @@ export const localsMiddleware = (req, res, next) => {
     res.locals.loggedUser = req.session.user || {};
 
     // console.log('Locals ::', res.locals);
+    // console.log(req.session);
 
     next(); 
 };

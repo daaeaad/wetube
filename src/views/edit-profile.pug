@@ -1,6 +1,9 @@
 extends base.pug
 
 block contents 
+    if(errorMessage)
+        span=errorMessage
+
     form(method="post") 
         input(type="text" name="name" placeholder="이름" value=loggedUser.name required)
         input(type="email" name="email" placeholder="이메일" value=loggedUser.email required)

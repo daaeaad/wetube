@@ -201,9 +201,51 @@ export const getEdit = (req, res) => {
 };
 
 
-// 내정보수정 페이지 post
-export const postEdit = (req, res) => { 
-    return res.render('edit-profile', { title: titleEditProfile });
+// 내정보수정 수정 내용 업데이트
+export const postEdit = async (req, res) => { 
+
+    const renderEditPage = (errorMessage) => {res.render('edit-profile', { title:titleEditProfile, errorMessage});};
+    let errorMessage = '';
+    const { session: { user }, body } = req;
+
+    // 현재 세션의 유저 정보와 폼 내용 비교
+    // 1: 배열 메소드 사용을 위해 세션과 폼 객체 배열화
+    const sessionArr= Object.entries(user);
+    const bodyArr = Object.entries(body);
+
+    // 2: 두 배열을 map으로 상이한 내용 있는지 비교 및 확인
+    let newInfo = {}; // 변경된 내용이 들어갈 객체
+    sessionArr.map((sessionItm) => {
+        bodyArr.forEach(bodyItm => {
+            if(bodyItm[0] === sessionItm[0] && bodyItm[1] !== sessionItm[1]) { // 세션 데이터와 폼 데이터 비교해서 변경된 내용 있으면
+                let key = bodyItm[0]; let val = bodyItm[1];
+                newInfo[`${key}`] = val; // 객체에 넣음
+            }
+        });
+    });
+
+    // 변경된 내용이 있는지 확인(= 빈객체인지 체크)
+    const checkNewinfo = Object.keys(newInfo).length;
+    // 업데이트 할게 있으면
+    if(checkNewinfo) {
+        // db에 이미 있는 내용인지 확인
+        const isExists = await User.exists({ $or: [ newInfo ] });
+        if(!isExists) { // 문제 없으면
+            // 업데이트하고 리다이렉트
+            const updateUser = await User.findByIdAndUpdate(
+                user._id, 
+                newInfo,
+                { new: true } // 세션 업데이트를 위해 디비에 업데이트된 내용 다시 받아오기
+            ); // db update
+            req.session.user = updateUser; // session update
+            return res.redirect('/users/edit');
+        } else { // 문제 있으면
+            // 상태코드 400, 에러메시지 리턴
+            status400(res);
+            errorMessage = '이미 사용중인 닉네임/이름/이메일 입니다.';
+            return renderEditPage(errorMessage);
+        }
+    }
 };
 
 
