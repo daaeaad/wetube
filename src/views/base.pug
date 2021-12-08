@@ -10,8 +10,6 @@ html(lang='ko')
             nav(style="margin:0")
                 ul 
                     li 
-                        a(href="/video/upload") Upload Video
-                    li 
                         a(href="/") Home
                     li 
                         a(href="/search") Search
@@ -23,9 +21,11 @@ html(lang='ko')
                             a(href="/join") Join
                     else
                         li 
-                            a(href="/logout") Logout
+                            a(href="/video/upload") Upload Video
                         li 
-                            a(href="/my-profile") #{loggedUser.userName}의 프로필
+                            a(href="/users/edit") Edit Profile
+                        li 
+                            a(href="/users/logout") Logout
         main 
             block contents
             include includes/footer.pug

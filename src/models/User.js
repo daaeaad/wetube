@@ -8,9 +8,11 @@ const { Schema } = mongoose;
 const schema = new Schema({
     name: { type: String, minlength: 2, maxlength: 50, required: true, unique: true },
     email: { type: String, minlength: 6, maxlength: 50, required: true, unique: true },
-    password: { type: String, minlength: 8, maxlength: 20, required: true },
+    password: { type: String, maxlength: 20 },
     userName: { type: String, minlength: 2, maxlength: 14, required: true },
-    location: { type: String }
+    location: { type: String },
+    snsOnly: { type: Boolean, default: false },
+    avatarUrl: { type: String }
 });
 
 schema.pre('save', async function() {
