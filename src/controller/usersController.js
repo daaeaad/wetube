@@ -200,7 +200,8 @@ export const getEdit = (req, res) => {
     return res.render('edit-profile', { title: titleEditProfile });
 };
 
-// CHALLENGE //
+
+///////////// CHALLENGE /////////////
 // 내정보수정 수정 내용 업데이트
 export const postEdit = async (req, res) => { 
 
