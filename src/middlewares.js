@@ -32,3 +32,17 @@ export const publicOnlyMiddleware = (req, res, next) => {
     return next();
 };
 
+
+// sns로그인 상태면 접근 못하게
+export const normalLoginOnlyMiddleware = (req, res, next) => {
+    const { 
+        headers: { referer },
+        session: { user: { snsOnly } }
+    } =  req;
+
+    if(snsOnly) {
+        return res.redirect(referer);
+    }
+    next();
+};
+

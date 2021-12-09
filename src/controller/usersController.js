@@ -10,9 +10,19 @@ const titleJoin = 'Join';
 const titleLogin = 'Login';
 // 내정보수정 타이틀
 const titleEditProfile = 'Edit Profile';
+// 비밀번호변경 타이틀
+const titleChangePassword = 'Change password';
 
 // 상태코드 400
 const status400 = (res) => {res.status(400)};
+
+
+// 비밀번호 일치 확인
+const hashMatching = (plainTxt, hashedTxt) => {
+    const result = bcrypt.compare(plainTxt, hashedTxt);
+    return result;
+};
+
 
 
 // 회원가입 페이지 렌더링
@@ -73,7 +83,7 @@ export const postLogin = async (req, res) => {
         return renderLoginPage();
     }
 
-    const isMatchedPw = await bcrypt.compare(password, user.password);
+    const isMatchedPw = await bcrypt.compare(password, user.password)
     if(!isMatchedPw) { // 비밀번호가 일치하지 않으면,
         //상태코드 반환과 현재페이지 다시 렌더링
         errorMessage = '아이디 혹은 비밀번호가 잘못 되었습니다.'
@@ -250,6 +260,45 @@ export const postEdit = async (req, res) => {
 };
 
 
-export const remove = (req, res) => { res.send('Users Remove') };
+export const getChagePassword = (req, res) => {
+    if(req.session.user.snsOnly) {
+        return res.redirect('/');
+    }
+    return res.render('change-password', {title: 'Change password'});
+};
+
+
+export const postChagePassword = async (req, res) => {
+
+    const { 
+        body: { oldPw, newPw, newPw2 }, 
+        session: { user: { _id } } 
+    } = req;
+    const user = await User.findById(_id);
+
+    const renderPage = (errorMessage) => {res.render('change-password', { title: titleChangePassword, errorMessage});};
+    let errorMessage = '';
+
+    // old pw 가 현재 비밀번호와 일치하는지 확인
+    const isMatchedPw = await bcrypt.compare(oldPw, user.password);
+    if(!isMatchedPw) {
+        errorMessage = '현재 비밀번호를 다시 확인해주세요.';
+        status400(res);
+        return renderPage(errorMessage);
+    }
+
+    // new pw와 new pw2가 일치하는지 확인
+    if(newPw !== newPw2) {
+        errorMessage = '새 비밀번호가 서로 일치하지 않습니다.';
+        status400(res);
+        return renderPage(errorMessage);
+    }
+
+    // 모두 일치하면 new pw를 db랑 세션에 업데이트
+    user.password = newPw;
+    await user.save();
+
+    return res.redirect('/users/logout');
+};
 
 
