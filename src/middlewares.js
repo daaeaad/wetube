@@ -1,3 +1,4 @@
+import multer from "multer";
 
 
 export const localsMiddleware = (req, res, next) => {
@@ -45,4 +46,8 @@ export const normalLoginOnlyMiddleware = (req, res, next) => {
     }
     next();
 };
+
+
+// file upload
+export const uploadFileMiddleware = multer({ dest: 'uploads/' });
 

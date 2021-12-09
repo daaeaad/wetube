@@ -217,7 +217,11 @@ export const postEdit = async (req, res) => {
 
     const renderEditPage = (errorMessage) => {res.render('edit-profile', { title:titleEditProfile, errorMessage});};
     let errorMessage = '';
-    const { session: { user }, body } = req;
+    const { session: { user }, body, file } = req;
+
+    console.log('file:::', file);
+    file ? body.avatarUrl = file.path : body.avatarUrl = user.avatarUrl;
+    console.log('body:::', body);
 
     // 현재 세션의 유저 정보와 폼 내용 비교
     // 1: 배열 메소드 사용을 위해 세션과 폼 객체 배열화
@@ -229,11 +233,15 @@ export const postEdit = async (req, res) => {
     sessionArr.map((sessionItm) => {
         bodyArr.forEach(bodyItm => {
             if(bodyItm[0] === sessionItm[0] && bodyItm[1] !== sessionItm[1]) { // 세션 데이터와 폼 데이터 비교해서 변경된 내용 있으면
-                let key = bodyItm[0]; let val = bodyItm[1];
+                let key = bodyItm[0]; 
+                let val = bodyItm[1];
                 newInfo[`${key}`] = val; // 객체에 넣음
             }
         });
     });
+
+
+    console.log('new::::', newInfo);
 
     // 변경된 내용이 있는지 확인(= 빈객체인지 체크)
     const checkNewinfo = Object.keys(newInfo).length;
@@ -249,7 +257,10 @@ export const postEdit = async (req, res) => {
                 { new: true } // 세션 업데이트를 위해 디비에 업데이트된 내용 다시 받아오기
             ); // db update
             req.session.user = updateUser; // session update
-            return res.redirect('/users/edit');
+
+            console.log('db:::', updateUser);
+            console.log('session:::', req.session.user);
+
         } else { // 문제 있으면
             // 상태코드 400, 에러메시지 리턴
             status400(res);
@@ -257,6 +268,8 @@ export const postEdit = async (req, res) => {
             return renderEditPage(errorMessage);
         }
     }
+
+    return res.redirect('/users/edit');
 };
 
 

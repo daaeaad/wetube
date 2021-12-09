@@ -18,20 +18,21 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "multer": "^1.4.4",
     "pug": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
+    "fetch-node": "^0.0.1",
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7",
-    "bcrypt": "^5.0.1",
-    "fetch-node": "^0.0.1"
+    "nodemon": "^2.0.7"
   },
   "type": "module"
 }

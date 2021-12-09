@@ -4,7 +4,10 @@ block contents
     if(errorMessage)
         span=errorMessage
 
-    form(method="post") 
+    img(src="/"+loggedUser.avatarUrl, alt="", width="100", height="100")
+    form(method="post" enctype="multipart/form-data")
+        label(for="avatar") Upload profile image
+        input(type="file" name="avatar" id="avatar" accept="image/*") 
         input(type="text" name="name" placeholder="이름" value=loggedUser.name required)
         input(type="email" name="email" placeholder="이메일" value=loggedUser.email required)
         input(type="text" name="userName" placeholder="유저명" value=loggedUser.userName required)
