@@ -37,8 +37,12 @@
 - sns 로그인 구별 후 접근 막는 미들웨어 추가
 - 설치: multer middleware
 - 파일 업로드 폴더 생성 : /uploads
+- uploads폴더 노출되도록 설정 (video, avatar 폴더 분리)
+- 파일업로드 미들웨어 추가
+    - avatarUploadMiddleware, videoUploadMiddleware
 - 내프로필 수정
     - 이미지 업로드, 수정 기능 추가
     - 변경된 내용 확인 및 업데이트 기능 수정
-- uploads폴더 노출되도록 설정
+- 비디오 업로드 페이지
+    - 비디오 파일 업로드 기능 추가
 
