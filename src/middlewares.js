@@ -48,6 +48,11 @@ export const normalLoginOnlyMiddleware = (req, res, next) => {
 };
 
 
-// file upload
-export const uploadFileMiddleware = multer({ dest: 'uploads/' });
+// file upload: avatar
+export const avatarFileMiddleware = multer({ dest: 'uploads/avatar', limits: { fileSize: 1048576 } });
+
+
+// file upload: video
+export const videoFileMiddleware = multer({ dest: 'uploads/video', limits: { fileSize: 20971520 } });
+
 

@@ -1,6 +1,6 @@
 import express from "express";
 import { githubLoginStart, githubLoginFinish, logout, getEdit, postEdit, getChagePassword, postChagePassword } from "../controller/usersController.js"
-import { normalLoginOnlyMiddleware, protectorMiddleware, publicOnlyMiddleware, uploadFileMiddleware } from "../middlewares.js";
+import { normalLoginOnlyMiddleware, protectorMiddleware, publicOnlyMiddleware, avatarFileMiddleware } from "../middlewares.js";
 
 
 const usersRouter = express.Router();
@@ -15,7 +15,7 @@ usersRouter
     .route('/edit')
     .all(protectorMiddleware)
     .get(getEdit)
-    .post(uploadFileMiddleware.single('avatar'), postEdit);
+    .post(avatarFileMiddleware.single('avatar'), postEdit);
 
 usersRouter.route('/changepw')
     .all(protectorMiddleware, normalLoginOnlyMiddleware)

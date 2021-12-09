@@ -3,6 +3,9 @@ extends base.pug
 
 block contents
     
+    div
+        video(src="/"+video.videoUrl, height="400", controls, autoplay)
+
     div 
         p=video.description
         small=video.createdAt 

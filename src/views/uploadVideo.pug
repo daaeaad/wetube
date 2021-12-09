@@ -3,13 +3,15 @@ extends base.pug
 block contents
     h3 Upload New Video
 
-    form(method="post")
+    form(method="post" enctype="multipart/form-data")
 
         if(errMessage)
             span=errMessage
 
-        input(type="text" name="title" placeholder="제목" value="" minlength="5" maxlength="50")
-        input(type="text" name="description" placeholder="설명" value="" minlength="5" maxlength="100")
+        label(for="video") 
+        input(type="file" name="video" id="video" value="" accept="video/*")
+        input(type="text" name="title" placeholder="제목" value="" minlength="4" maxlength="50")
+        input(type="text" name="description" placeholder="설명" value="" minlength="4" maxlength="100")
         input(type="text" name="hashtags" placeholder="쉼표(,)로 구분하여 해시태그를 입력" value="")
 
         input(type="submit" value="Upload")
