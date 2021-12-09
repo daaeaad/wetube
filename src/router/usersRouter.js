@@ -1,5 +1,5 @@
 import express from "express";
-import { githubLoginStart, githubLoginFinish, logout, getEdit, postEdit, getChagePassword, postChagePassword } from "../controller/usersController.js"
+import { githubLoginStart, githubLoginFinish, logout, getEdit, postEdit, getChagePassword, postChagePassword, see } from "../controller/usersController.js"
 import { normalLoginOnlyMiddleware, protectorMiddleware, publicOnlyMiddleware, avatarFileMiddleware } from "../middlewares.js";
 
 
@@ -21,6 +21,9 @@ usersRouter.route('/changepw')
     .all(protectorMiddleware, normalLoginOnlyMiddleware)
     .get(getChagePassword)
     .post(postChagePassword);
+
+usersRouter.route('/:id')
+    .get(see);
 
 
 export default usersRouter;

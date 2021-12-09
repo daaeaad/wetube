@@ -5,7 +5,7 @@ import Mongostore from "connect-mongo";
 import rootRouter from "./router/rootRouter.js";
 import usersRouter from "./router/usersRouter.js";
 import videoRouter from "./router/videosRouter.js";
-import { localsMiddleware } from "./middlewares.js";
+import { checkRealUserMiddleware, localsMiddleware } from "./middlewares.js";
 
 const app = express();
 const logger = morgan('dev');
@@ -29,6 +29,7 @@ app.use(
     })
 );
 app.use(localsMiddleware);
+app.use(checkRealUserMiddleware);
 
 app.use('/', rootRouter);
 app.use('/users', usersRouter);

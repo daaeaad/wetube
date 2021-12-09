@@ -38,8 +38,10 @@
 - 설치: multer middleware
 - 파일 업로드 폴더 생성 : /uploads
 - uploads폴더 노출되도록 설정 (video, avatar 폴더 분리)
-- 파일업로드 미들웨어 추가
-    - avatarUploadMiddleware, videoUploadMiddleware
+- 미들웨어 추가/수정
+    - avatarUploadMiddleware, videoUploadMiddleware : 파일 업로드 (용량 제한이랑 업로드 경로 구분을 위해 미들웨어 분리)
+    - checkRealUserMiddleware: DB에서 수동으로 삭제했는데 세션이 남아있는 경우 강제 로그아웃
+    - 세션에서 로그인 여부 체크하지 않고 res.locals에서 체크하게 수정
 - 내프로필 수정
     - 이미지 업로드, 수정 기능 추가
     - 변경된 내용 확인 및 업데이트 기능 수정

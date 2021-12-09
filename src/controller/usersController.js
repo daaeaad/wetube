@@ -315,3 +315,16 @@ export const postChagePassword = async (req, res) => {
 };
 
 
+// 내 프로필 정보 보기
+export const see = async(req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if(!user) {
+        return res.status(404).render('404', { title: 'User not found' });
+    }
+
+    res.render('profile', { title: `${user.name}의 profile`, user });
+};
+
+
