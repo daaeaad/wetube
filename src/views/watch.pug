@@ -18,7 +18,8 @@ block contents
     br
     br
     
-    a(href=`${video.id}/edit`) Edit &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete &rarr; 
+    if String(loggedUser._id) === String(user._id)
+        a(href=`${video.id}/edit`) Edit &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete &rarr; 
 

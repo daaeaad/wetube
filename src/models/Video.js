@@ -12,7 +12,8 @@ const schema = new Schema({
         views: { type: Number, default: 0, required: true },
         comments: { type: Number, default: 0, required: true }
     },
-    videoUrl: { type: String, required: true }
+    videoUrl: { type: String, required: true },
+    writer: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' }
 });
 
 /*
