@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Video from '../models/Video.js';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
 import fetch from 'node-fetch';
@@ -315,11 +316,11 @@ export const postChagePassword = async (req, res) => {
 };
 
 
-// 내 프로필 정보 보기
+// 프로필 정보 보기
 export const see = async(req, res) => {
     const { id } = req.params;
-    const user = await User.findById(id);
-
+    const user = await User.findById(id).populate('videos');
+    console.log(user);
     if(!user) {
         return res.status(404).render('404', { title: 'User not found' });
     }

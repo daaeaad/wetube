@@ -12,13 +12,18 @@ block contents
         
         div 
             each hashtag in video.hashtags
-                span=hashtag
+                span(style="color:skyblue")=hashtag
                 span=' '
+
+        div 
+            a(href=`/users/${video.writer._id}` style="display:block;") 
+                img(src="/"+video.writer.avatarUrl, alt="", width="30" height="30" )
+                span=video.writer.name
     
     br
     br
     
-    if String(loggedUser._id) === String(user._id)
+    if String(video.writer._id) === String(loggedUser._id)
         a(href=`${video.id}/edit`) Edit &rarr;
         br
         a(href=`${video.id}/delete`) Delete &rarr; 

@@ -1,4 +1,9 @@
 extends base.pug
+include mixins/video.pug
 
 block contents 
     
+    each item in user.videos
+        +video(item)
+    else 
+        h4 Nothing found.

@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+
 const { Schema } = mongoose;
 
 
@@ -12,12 +13,18 @@ const schema = new Schema({
     userName: { type: String, minlength: 2, maxlength: 14, required: true },
     location: { type: String },
     snsOnly: { type: Boolean, default: false },
-    avatarUrl: { type: String }
+    avatarUrl: { type: String },
+    videos: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Video' }
+    ]
 });
 
 schema.pre('save', async function() {
-    const hashedStr = await bcrypt.hash(this.password, 5);
-    this.password = hashedStr;
+    const isModified = this.isModified('password');
+    if(isModified) {
+        const hashedStr = await bcrypt.hash(this.password, 5);
+        this.password = hashedStr;
+    }
 });
 
 

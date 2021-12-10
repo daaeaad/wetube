@@ -2,6 +2,18 @@
 import Video from '../models/Video.js';
 import User from '../models/User.js';
 
+
+export const isWriter = (wrId, userId) => {
+    wrId = String(wrId);
+    userId = String(userId);
+
+    let result;
+    wrId === userId ? result=true : result=false;
+
+    return result;
+};
+
+
 export const home = async (req, res) => { 
     /* 
     // 방법 1: Callback 방식
@@ -22,22 +34,24 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => { 
     const { id } = req.params;
-    const video = await Video.findById(id);
-    const user = await User.findById(video.writer);
-    
+    const video = await Video.findById(id).populate('writer');
+    // console.log('video:::', video);
     if(!video) {
         return res.status(404).render('404', { title: 'Video not found' });
     }
 
-    return res.render('watch', { title: video.title, video, user });
+    return res.render('watch', { title: video.title, video });
 };
 
 export const getEdit = async (req, res) => {
     const { id } = req.params;
     const video = await Video.findById(id);
-    if(!video) {
-        return res.status(404).render('404', { title: 'Video not found' });
-    }
+    const { user: { _id: userId } } = req.session;
+    
+    if(!video) return res.status(404).render('404', { title: 'Video not found' });
+
+    if(!isWriter(video.writer, userId)) return res.status(403).redirect('/');
+
     return res.render('editVideo', { title: `Edit: ${video.title}`, video });
 };
 
@@ -45,10 +59,11 @@ export const postEdit = async (req, res) => {
     const { id } = req.params;
     const { title, description, hashtags } = req.body;
     const video = await Video.exists({ _id: id });
+    const { user: { _id: userId } } = req.session;
+    
+    if(!isWriter(video.writer, userId)) return res.status(403).redirect('/');
 
-    if(!video) {
-        return res.status(404).render('404', { title: 'Video not found' });
-    }
+    if(!video) return res.status(404).render('404', { title: 'Video not found' });
 
     await Video.findByIdAndUpdate(id, {
         title,
@@ -71,13 +86,18 @@ export const postUpload = async (req, res) => {
     } = req;
     
     try {
-        await Video.create({
+        const newVideo = await Video.create({
             title,
             description,
             hashtags: Video.hashtagsFormat(hashtags),
             videoUrl,
             writer: _id
         });
+
+        const user = await User.findById({_id});
+        user.videos.push(newVideo._id);
+        user.save();
+
         return res.redirect(`/`);
     } catch(error) {
         console.log(error);
@@ -88,6 +108,8 @@ export const postUpload = async (req, res) => {
 export const deleteVideo = async (req, res) => {
     const { id } = req.params;
     await Video.findByIdAndDelete(id);
+    const { user: { _id: userId } } = req.session;
+    if(!isWriter(video.writer, userId)) return res.status(403).redirect('/');
     return res.redirect('/');
 };
 
